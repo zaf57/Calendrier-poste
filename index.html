@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  
+   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 20px;
+      font-size: 32px; /* Taille de police doublée */
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 16px;
+      font-size: 32px; /* Taille de police doublée */
+    }
+
+    select, input {
+      width: 50%;
+      padding: 20px; /* Doublé la taille de la case */
+      margin-bottom: 32px; /* Doublé l'espacement en bas de la case */
+      font-size: 32px; /* Taille de police doublée */
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      padding: 20px 30px; /* Doublé la taille du bouton */
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+
+</head>
+
+<body>
+  <h1>Calendrier des Postes</h1>
+  <label for="dateSelect">Sélectionnez une date :</label>
+  <select id="dateSelect" onchange="mettreAJourPoste()"></select>
+  <br>
+  <label for="posteInput">Poste :</label>
+  <input type="text" id="posteInput" readonly>
+
+  <script>
+    // Fonction pour charger les options de date lors du chargement de la page
+    window.onload = function () {
+      google.script.run.withSuccessHandler(updateDateOptions).getOptions();
+    };
+
+    // Fonction pour mettre à jour les options de date dans la liste déroulante
+    function updateDateOptions(options) {
+      var select = document.getElementById("dateSelect");
+
+      // Ajouter chaque option à la liste déroulante
+      for (var i = 0; i < options.length; i++) {
+        var option = document.createElement("option");
+        option.text = options[i];
+        select.add(option);
+      }
+
+      // Appeler la fonction côté serveur pour obtenir le poste initial
+      var selectedDate = select.value;
+      google.script.run.withSuccessHandler(updatePosteInput).getReponse(selectedDate);
+    }
+
+    // Fonction pour mettre à jour le poste en appelant la fonction côté serveur
+    function mettreAJourPoste() {
+      var selectedDate = document.getElementById("dateSelect").value;
+
+      // Appeler la fonction côté serveur pour obtenir le poste
+      google.script.run.withSuccessHandler(updatePosteInput).getReponse(selectedDate);
+    }
+
+    // Fonction pour obtenir la réponse du poste pour une date donnée
+function getReponse() {
+  var date = document.getElementById("dateSelect").value;
+  google.script.run.withSuccessHandler(updatePoste).getReponseByDate(date);
+}
+
+    // Fonction pour mettre à jour le champ de saisie du poste
+    function updatePosteInput(poste) {
+      document.getElementById("posteInput").value = poste;
+    }
+  </script>
+</body>
+
+</html>
