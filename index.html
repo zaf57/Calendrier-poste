@@ -2,67 +2,96 @@
 <html>
 
 <head>
- <title>Calendrier Poste</title>
+    <title>Calendrier Poste</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://apis.google.com/js/api.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+ 
 
 </head>
 
 <body>
-  <h1>Calendrier des Postes</h1>
-  <label for="dateSelect">Sélectionnez une date :</label>
-  <select id="dateSelect" onchange="mettreAJourPoste()"></select>
-  <br>
-  <label for="posteInput">Poste :</label>
-  <input type="text" id="posteInput" readonly>
+    <h1>Calendrier des Postes</h1>
+    <label for="Jour">Sélectionnez une date :</label>
+    <select id="Jour" onchange="afficherPoste()"></select>
+    <br>
+    <label for="posteInput">Poste :</label>
+    <input type="text" id="posteInput" readonly>
 
-  <script>
-    // Fonction pour charger les options de date lors du chargement de la page
-    window.onload = function () {
-      google.script.run.withSuccessHandler(updateDateOptions).getOptions();
-    };
+    <script>
+        var correspondances = {};
 
-    // Fonction pour mettre à jour les options de date dans la liste déroulante
-    function updateDateOptions(options) {
-      var select = document.getElementById("dateSelect");
+        function start() {
+            gapi.client.init({
+                'apiKey': 'AIzaSyAIRpStG7VNS7XKpYmxunpO5hIsdZ_9d0E',
+                'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+            }).then(function () {
+                console.log('API initialized');
+                chargerCorrespondances();
+            }, function (error) {
+                console.log('Error initializing API', error);
+            });
+        }
 
-      // Ajouter chaque option à la liste déroulante
-      for (var i = 0; i < options.length; i++) {
-        var option = document.createElement("option");
-        option.text = options[i];
-        select.add(option);
-      }
+              function chargerCorrespondances() {
+            var spreadsheetId = "1gm-uxD8_wMvs7B12o9-hNKpehVwriWNepvVS1QxplAw"; // ID de la feuille de calcul
+            var range = "Sheet1!B2:D"; // Plage de données dans la feuille de calcul
 
-      // Appeler la fonction côté serveur pour obtenir le poste initial
-      var selectedDate = select.value;
-      google.script.run.withSuccessHandler(updatePosteInput).getReponse(selectedDate);
-    }
+            gapi.client.sheets.spreadsheets.values.get({
+                spreadsheetId: spreadsheetId,
+                range: range,
+            }).then(function(response) {
+                var values = response.result.values;
+                correspondances = {};
+                if (values && values.length > 0) {
+                    for (var i = 0; i < values.length; i++) {
+                        var row = values[i];
+                        correspondances[row[0]] = row[2]; // Utilisez le bon index pour correspondre à vos données
+                    }
+                }
+                // Mettez à jour la liste déroulante après avoir chargé les correspondances
+                mettreAJourListeDeroulante();
+            }, function(response) {
+                console.log('Erreur : ' + response.result.error.message);
+            });
+        }
 
-    // Fonction pour mettre à jour le poste en appelant la fonction côté serveur
-    function mettreAJourPoste() {
-      var selectedDate = document.getElementById("dateSelect").value;
+        function afficherPoste() {
+            var dateSelectionnee = document.getElementById("Jour").value;
+            var posteInput = document.getElementById("posteInput");
 
-      // Appeler la fonction côté serveur pour obtenir le poste
-      google.script.run.withSuccessHandler(updatePosteInput).getReponse(selectedDate);
-    }
+            if (correspondances.hasOwnProperty(dateSelectionnee)) {
+                posteInput.value = correspondances[dateSelectionnee];
+            } else {
+                posteInput.value = "Aucune information trouvée pour cette date";
+            }
+        }
 
-    // Fonction pour obtenir la réponse du poste pour une date donnée
-function getReponse() {
-  var date = document.getElementById("dateSelect").value;
-  google.script.run.withSuccessHandler(updatePoste).getReponseByDate(date);
-}
+        // Fonction pour mettre à jour la liste déroulante avec les dates
+        function mettreAJourListeDeroulante() {
+            var selectJour = document.getElementById("Jour");
 
-    // Fonction pour mettre à jour le champ de saisie du poste
-    function updatePosteInput(poste) {
-      document.getElementById("posteInput").value = poste;
-    }
-  </script>
+            // Ajoutez les dates à la liste déroulante
+            for (var date in correspondances) {
+                var option = document.createElement("option");
+                option.value = date;
+                option.text = date;
+                selectJour.add(option);
+            }
+        }
+      
+   window.onload = function() {
+            gapi.load('client', start);
+        }; 
+      
+        
+
+
+
+     
+    </script>
 </body>
 
 </html>
