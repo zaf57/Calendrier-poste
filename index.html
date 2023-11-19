@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Calendrier Des Postes Conti</title>
+    <title>Calendrier Poste</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +12,16 @@
 
 <body>
     <h1>Calendrier des Postes</h1>
+
+    <label for="equipeSelect">Sélectionnez une équipe :</label>
+    <select id="equipeSelect" onchange="chargerEquipe()">
+        <option value="equipeA">Équipe A</option>
+        <option value="equipeB">Équipe B</option>
+        <option value="equipeC">Équipe C</option>
+        <option value="equipeD">Équipe D</option>
+        <option value="equipeE">Équipe E</option>
+    </select>
+
     <label for="Jour">Sélectionnez une date :</label>
     <select id="Jour" onchange="afficherPoste()"></select>
     <br>
@@ -20,6 +30,7 @@
 
     <script>
         var correspondances = {};
+        var equipeSelectionnee = "equipeC"; // Par défaut, sélectionnez l'équipe 1
 
         function start() {
             gapi.client.init({
@@ -27,67 +38,72 @@
                 'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
             }).then(function () {
                 console.log('API initialized');
-                chargerCorrespondances();
+                chargerEquipe();
             }, function (error) {
                 console.log('Error initializing API', error);
             });
         }
 
-function chargerCorrespondances() {
-    var spreadsheetId = "1gm-uxD8_wMvs7B12o9-hNKpehVwriWNepvVS1QxplAw"; // ID de la feuille de calcul
-    var range = "Sheet1!A2:E"; // Mettez à jour la plage de données pour inclure la nouvelle colonne
+        function chargerEquipe() {
+            // Mettez à jour la variable d'équipe sélectionnée en fonction de la sélection de l'utilisateur
+            equipeSelectionnee = document.getElementById("equipeSelect").value;
+            chargerCorrespondances();
+        }
 
-    gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: spreadsheetId,
-        range: range,
-    }).then(function(response) {
-        var values = response.result.values;
-        correspondances = {};
-        if (values && values.length > 0) {
-            for (var i = 0; i < values.length; i++) {
-                var row = values[i];
-                var optionText = row[0] + " - " + row[1] + " - " + row[2] + " - " + row[3];
-                ajouterOption("Jour", optionText, row[1], row[4]); // Ajoutez la date et la nouvelle information comme paramètres
-                correspondances[row[1]] = { jourSemaine: row[0], semaine: row[2], poste: row[3], information: row[4] };
+        function chargerCorrespondances() {
+            var spreadsheetId = "1gm-uxD8_wMvs7B12o9-hNKpehVwriWNepvVS1QxplAw"; // ID de la feuille de calcul
+
+            // Mettez à jour le nom de la feuille en fonction de l'équipe sélectionnée
+            var sheetName = (equipeSelectionnee === "equipeA") ? "EquipeA" :
+                            (equipeSelectionnee === "equipeB") ? "EquipeB" :
+                            (equipeSelectionnee === "equipeC") ? "EquipeC" : 
+                            (equipeSelectionnee === "equipeD") ? "EquipeD" : 
+                            (equipeSelectionnee === "equipeE") ? "EquipeE" : "";
+
+            var range = sheetName + "!A2:E";
+
+            gapi.client.sheets.spreadsheets.values.get({
+                spreadsheetId: spreadsheetId,
+                range: range,
+            }).then(function(response) {
+                var values = response.result.values;
+                correspondances = {};
+                if (values && values.length > 0) {
+                    for (var i = 0; i < values.length; i++) {
+                        var row = values[i];
+                        var optionText = row[0] + " - " + row[1] + " - " + row[2] + " - " + row[3];
+                        ajouterOption("Jour", optionText, row[1], row[4]);
+                        correspondances[row[1]] = { jourSemaine: row[0], semaine: row[2], poste: row[3], information: row[4] };
+                    }
+                }
+            }, function(response) {
+                console.log('Erreur : ' + response.result.error.message);
+            });
+        }
+
+        function ajouterOption(idSelect, texte, date, information) {
+            var select = document.getElementById(idSelect);
+            var option = document.createElement("option");
+
+            // Ajoutez l'option au select
+            option.text = texte;
+            option.value = date;
+            select.add(option);
+            // Ajoutez l'information dans un attribut de données (dataset) de l'option
+            option.dataset.information = information;
+        }
+
+        function afficherPoste() {
+            var dateSelectionnee = document.getElementById("Jour").value;
+            var posteInput = document.getElementById("posteInput");
+
+            if (correspondances.hasOwnProperty(dateSelectionnee)) {
+                var info = correspondances[dateSelectionnee];
+                posteInput.value = info.information ? info.information : "Pas d'info";
+            } else {
+                posteInput.value = "Aucune information trouvée pour cette date";
             }
         }
-    }, function(response) {
-        console.log('Erreur : ' + response.result.error.message);
-    });
-}
-
-function ajouterOption(idSelect, texte, date, information) {
-    var select = document.getElementById(idSelect);
-    var option = document.createElement("option");
-    
-    // Ajoutez l'option au select
-    option.text = texte;
-    option.value = date;
-    select.add(option);
-
-    // Ajoutez l'information dans un attribut de données (dataset) de l'option
-    option.dataset.information = information;
-}
-
-function afficherPoste() {
-    var dateSelectionnee = document.getElementById("Jour").value;
-    var posteInput = document.getElementById("posteInput");
-
-    if (correspondances.hasOwnProperty(dateSelectionnee)) {
-        var info = correspondances[dateSelectionnee];
-        
-        // Vérifiez si l'information existe
-        posteInput.value = info.information ? info.information : "Aucune information trouvée";
-    } else {
-        posteInput.value = "Aucune information trouvée pour cette date";
-    }
-}
-
-
-
-
-
-
 
         window.onload = function() {
             gapi.load('client', start);
