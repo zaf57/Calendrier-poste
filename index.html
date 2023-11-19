@@ -30,7 +30,7 @@
 
     <script>
         var correspondances = {};
-        var equipeSelectionnee = "equipeC"; // Par défaut, sélectionnez l'équipe 1
+        var equipeSelectionnee = "equipeC"; // Par défaut, sélectionnez l'équipe ('1
 
         function start() {
             gapi.client.init({
@@ -50,36 +50,40 @@
             chargerCorrespondances();
         }
 
-        function chargerCorrespondances() {
-            var spreadsheetId = "1gm-uxD8_wMvs7B12o9-hNKpehVwriWNepvVS1QxplAw"; // ID de la feuille de calcul
+function chargerCorrespondances() {
+    var spreadsheetId = "1gm-uxD8_wMvs7B12o9-hNKpehVwriWNepvVS1QxplAw";
+    var sheetName = (equipeSelectionnee === "equipeA") ? "EquipeA" :
+                    (equipeSelectionnee === "equipeB") ? "EquipeB" :
+                    (equipeSelectionnee === "equipeC") ? "EquipeC" : 
+                    (equipeSelectionnee === "equipeD") ? "EquipeD" : 
+                    (equipeSelectionnee === "equipeE") ? "EquipeE" : "";
 
-            // Mettez à jour le nom de la feuille en fonction de l'équipe sélectionnée
-            var sheetName = (equipeSelectionnee === "equipeA") ? "EquipeA" :
-                            (equipeSelectionnee === "equipeB") ? "EquipeB" :
-                            (equipeSelectionnee === "equipeC") ? "EquipeC" : 
-                            (equipeSelectionnee === "equipeD") ? "EquipeD" : 
-                            (equipeSelectionnee === "equipeE") ? "EquipeE" : "";
+    var range = sheetName + "!A2:E";
 
-            var range = sheetName + "!A2:E";
+    gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: spreadsheetId,
+        range: range,
+    }).then(function(response) {
+        var values = response.result.values;
+        correspondances = {};
+        var select = document.getElementById("Jour");
+        select.innerHTML = ""; // Efface toutes les options actuelles
 
-            gapi.client.sheets.spreadsheets.values.get({
-                spreadsheetId: spreadsheetId,
-                range: range,
-            }).then(function(response) {
-                var values = response.result.values;
-                correspondances = {};
-                if (values && values.length > 0) {
-                    for (var i = 0; i < values.length; i++) {
-                        var row = values[i];
-                        var optionText = row[0] + " - " + row[1] + " - " + row[2] + " - " + row[3];
-                        ajouterOption("Jour", optionText, row[1], row[4]);
-                        correspondances[row[1]] = { jourSemaine: row[0], semaine: row[2], poste: row[3], information: row[4] };
-                    }
-                }
-            }, function(response) {
-                console.log('Erreur : ' + response.result.error.message);
-            });
+        if (values && values.length > 0) {
+            for (var i = 0; i < values.length; i++) {
+                var row = values[i];
+                var optionText = row[0] + " - " + row[1] + " - " + row[2] + " - " + row[3];
+                ajouterOption("Jour", optionText, row[1], row[4]);
+                correspondances[row[1]] = { jourSemaine: row[0], semaine: row[2], poste: row[3], information: row[4] };
+            }
         }
+    }, function(response) {
+        console.log('Erreur : ' + response.result.error.message);
+    });
+}
+
+
+
 
         function ajouterOption(idSelect, texte, date, information) {
             var select = document.getElementById(idSelect);
@@ -93,17 +97,23 @@
             option.dataset.information = information;
         }
 
-        function afficherPoste() {
-            var dateSelectionnee = document.getElementById("Jour").value;
-            var posteInput = document.getElementById("posteInput");
+function afficherPoste() {
+    var dateSelectionnee = document.getElementById("Jour").value;
+    var posteInput = document.getElementById("posteInput");
 
-            if (correspondances.hasOwnProperty(dateSelectionnee)) {
-                var info = correspondances[dateSelectionnee];
-                posteInput.value = info.information ? info.information : "Pas d'info";
-            } else {
-                posteInput.value = "Aucune information trouvée pour cette date";
-            }
-        }
+    console.log("Date sélectionnée : ", dateSelectionnee);
+    console.log("Correspondances : ", correspondances);
+
+    if (correspondances.hasOwnProperty(dateSelectionnee)) {
+        var info = correspondances[dateSelectionnee];
+        console.log("Information trouvée : ", info);
+        posteInput.value = info.information ? info.information : "Pas d'info";
+    } else {
+        console.log("Aucune information trouvée pour cette date");
+        posteInput.value = "Aucune information trouvée pour cette date";
+    }
+}
+
 
         window.onload = function() {
             gapi.load('client', start);
