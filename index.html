@@ -15,7 +15,7 @@
     <label for="Jour">Sélectionnez une date :</label>
     <select id="Jour" onchange="afficherPoste()"></select>
     <br>
-    <label for="posteInput">Poste :</label>
+    <label for="posteInput">Info :</label>
     <input type="text" id="posteInput" readonly>
 
     <script>
@@ -46,7 +46,7 @@ function chargerCorrespondances() {
         if (values && values.length > 0) {
             for (var i = 0; i < values.length; i++) {
                 var row = values[i];
-                var optionText = row[0] + " " + row[1] + " " + row[2] + " " + row[3];
+                var optionText = row[0] + " -  " + row[1] + " -  " + row[2] + "  - " + row[3];
                 ajouterOption("Jour", optionText);
             }
         }
@@ -54,6 +54,7 @@ function chargerCorrespondances() {
         console.log('Erreur : ' + response.result.error.message);
     });
 }
+
 
 
         function ajouterOption(idSelect, texte) {
@@ -88,7 +89,7 @@ function afficherPoste() {
         posteInput.value = info.poste;
     } else {
         console.log("Aucune information trouvée pour cette date");
-        posteInput.value = "Aucune information trouvée pour cette date";
+        posteInput.value = "Aucune information trouvée ";
     }
 }
 
