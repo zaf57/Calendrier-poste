@@ -2,7 +2,7 @@
       font-family: Arial, sans-serif;
       background-color: #f4f4f4;
       margin: 20px;
-      font-size: 32px; /* Taille de police doublée */
+      font-size: 30px; /* Taille de police doublée */
     }
 
     .container {
@@ -17,17 +17,18 @@
     label {
       display: block;
       margin-bottom: 16px;
-      font-size: 32px; /* Taille de police doublée */
+      font-size: 27px; /* Taille de police doublée */
     }
 
     select, input {
       width: 100%;
-      padding: 20px; /* Doublé la taille de la case */
+      padding: 10px; /* Doublé la taille de la case */
       margin-bottom: 32px; /* Doublé l'espacement en bas de la case */
-      font-size: 21px; /* Taille de police doublée */
+      font-size: 19px; /* Taille de police doublée */
       border: 1px solid #ccc;
       border-radius: 4px;
       box-sizing: border-box;
+      padding-left: 5px;
     }
 
     button {
