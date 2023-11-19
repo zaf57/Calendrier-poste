@@ -8,8 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://apis.google.com/js/api.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
- 
-
 </head>
 
 <body>
@@ -35,62 +33,69 @@
             });
         }
 
-              function chargerCorrespondances() {
-            var spreadsheetId = "1gm-uxD8_wMvs7B12o9-hNKpehVwriWNepvVS1QxplAw"; // ID de la feuille de calcul
-            var range = "Sheet1!B2:D"; // Plage de données dans la feuille de calcul
+function chargerCorrespondances() {
+    var spreadsheetId = "1gm-uxD8_wMvs7B12o9-hNKpehVwriWNepvVS1QxplAw"; // ID de la feuille de calcul
+    var range = "Sheet1!A2:D"; // Plage de données dans la feuille de calcul
 
-            gapi.client.sheets.spreadsheets.values.get({
-                spreadsheetId: spreadsheetId,
-                range: range,
-            }).then(function(response) {
-                var values = response.result.values;
-                correspondances = {};
-                if (values && values.length > 0) {
-                    for (var i = 0; i < values.length; i++) {
-                        var row = values[i];
-                        correspondances[row[0]] = row[2]; // Utilisez le bon index pour correspondre à vos données
-                    }
-                }
-                // Mettez à jour la liste déroulante après avoir chargé les correspondances
-                mettreAJourListeDeroulante();
-            }, function(response) {
-                console.log('Erreur : ' + response.result.error.message);
-            });
-        }
-
-        function afficherPoste() {
-            var dateSelectionnee = document.getElementById("Jour").value;
-            var posteInput = document.getElementById("posteInput");
-
-            if (correspondances.hasOwnProperty(dateSelectionnee)) {
-                posteInput.value = correspondances[dateSelectionnee];
-            } else {
-                posteInput.value = "Aucune information trouvée pour cette date";
+    gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: spreadsheetId,
+        range: range,
+    }).then(function(response) {
+        var values = response.result.values;
+        correspondances = {};
+        if (values && values.length > 0) {
+            for (var i = 0; i < values.length; i++) {
+                var row = values[i];
+                var optionText = row[0] + " " + row[1] + " " + row[2] + " " + row[3];
+                ajouterOption("Jour", optionText);
             }
         }
+    }, function(response) {
+        console.log('Erreur : ' + response.result.error.message);
+    });
+}
 
-        // Fonction pour mettre à jour la liste déroulante avec les dates
-        function mettreAJourListeDeroulante() {
-            var selectJour = document.getElementById("Jour");
 
-            // Ajoutez les dates à la liste déroulante
+        function ajouterOption(idSelect, texte) {
+            var select = document.getElementById(idSelect);
+            var option = document.createElement("option");
+            option.text = texte;
+            select.add(option);
+        }
+
+        function updateDropdown() {
+            var select = document.getElementById("Jour");
             for (var date in correspondances) {
-                var option = document.createElement("option");
-                option.value = date;
-                option.text = date;
-                selectJour.add(option);
+                if (correspondances.hasOwnProperty(date)) {
+                    var option = document.createElement("option");
+                    option.value = date;
+                    option.text = correspondances[date].jourSemaine + " " + date;
+                    select.add(option);
+                }
             }
         }
-      
-   window.onload = function() {
+
+function afficherPoste() {
+    var dateSelectionnee = document.getElementById("Jour").value;
+    var posteInput = document.getElementById("posteInput");
+
+    console.log("Date sélectionnée :", dateSelectionnee);
+    console.log("Correspondances :", correspondances);
+
+    if (correspondances.hasOwnProperty(dateSelectionnee)) {
+        var info = correspondances[dateSelectionnee];
+        console.log("Information trouvée :", info);
+        posteInput.value = info.poste;
+    } else {
+        console.log("Aucune information trouvée pour cette date");
+        posteInput.value = "Aucune information trouvée pour cette date";
+    }
+}
+
+
+        window.onload = function() {
             gapi.load('client', start);
-        }; 
-      
-        
-
-
-
-     
+        };
     </script>
 </body>
 
