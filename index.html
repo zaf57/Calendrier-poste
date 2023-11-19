@@ -27,6 +27,14 @@
     <br>
     <label for="posteInput">Info :</label>
     <input type="text" id="posteInput" readonly>
+  
+    <!-- Ajout des boutons pour les années -->
+    <button onclick="afficherCalendrier('2023')">2023</button>
+    <button onclick="afficherCalendrier('2024')">2024</button>
+    <button onclick="afficherCalendrier('2025')">2025</button>
+
+    <!-- Balise iframe pour afficher les calendriers -->
+    <iframe id="calendrierFrame" style="display:none; width: 100%; height: 600px; border: none;"></iframe>
 
     <script>
         var correspondances = {};
@@ -118,6 +126,30 @@ function afficherPoste() {
         window.onload = function() {
             gapi.load('client', start);
         };
+      
+     
+        // Fonction pour afficher le calendrier en utilisant une balise iframe
+        function afficherCalendrier(annee) {
+            var iframe = document.getElementById("calendrierFrame");
+            // Remplacez l'URL avec le lien spécifique à l'année sélectionnée
+            switch (annee) {
+                case '2023':
+                    iframe.src = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEO7818imR3z8rrBtXx11zDygq8aTKZr8xdWJTzTCc2NLeZy6HpfBLLluv_6ExQwit3Qw8ifFKBPUU/pubhtml?gid=231805272&single=true";
+                    break;
+                case '2024':
+                    iframe.src = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEO7818imR3z8rrBtXx11zDygq8aTKZr8xdWJTzTCc2NLeZy6HpfBLLluv_6ExQwit3Qw8ifFKBPUU/pubhtml?gid=1785874661&single=true";
+                    break;
+                case '2025':
+                    iframe.src = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSEO7818imR3z8rrBtXx11zDygq8aTKZr8xdWJTzTCc2NLeZy6HpfBLLluv_6ExQwit3Qw8ifFKBPUU/pubhtml?gid=122524209&single=true";
+                    break;
+                default:
+                    break;
+            }
+            // Affichez la balise iframe
+            iframe.style.display = "block";
+        }
+
+
     </script>
 </body>
 
