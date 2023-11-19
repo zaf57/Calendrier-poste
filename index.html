@@ -47,7 +47,7 @@ function chargerCorrespondances() {
             for (var i = 0; i < values.length; i++) {
                 var row = values[i];
                 var optionText = row[0] + " - " + row[1] + " - " + row[2] + " - " + row[3];
-                ajouterOption("Jour", optionText, row[1], ""); // Ajoutez la date et la nouvelle information comme paramètres
+                ajouterOption("Jour", optionText, row[1], row[4]); // Ajoutez la date et la nouvelle information comme paramètres
                 correspondances[row[1]] = { jourSemaine: row[0], semaine: row[2], poste: row[3], information: row[4] };
             }
         }
@@ -59,8 +59,9 @@ function chargerCorrespondances() {
 function ajouterOption(idSelect, texte, date, information) {
     var select = document.getElementById(idSelect);
     var option = document.createElement("option");
-    option.text = texte + " - " + information; // Ajoutez la nouvelle information au texte de l'option
+    option.text = texte; // Utilisez uniquement le texte sans l'index 4
     option.value = date; // Utilisez la date comme valeur de l'option
+    option.dataset.information = information; // Stockez l'information dans un attribut de données (dataset) de l'option
     select.add(option);
 }
 
