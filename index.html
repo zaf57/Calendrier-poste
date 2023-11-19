@@ -59,10 +59,14 @@ function chargerCorrespondances() {
 function ajouterOption(idSelect, texte, date, information) {
     var select = document.getElementById(idSelect);
     var option = document.createElement("option");
-    option.text = texte; // Utilisez uniquement le texte sans l'index 4
-    option.value = date; // Utilisez la date comme valeur de l'option
-    option.dataset.information = information; // Stockez l'information dans un attribut de données (dataset) de l'option
+    
+    // Ajoutez l'option au select
+    option.text = texte;
+    option.value = date;
     select.add(option);
+
+    // Ajoutez l'information dans un attribut de données (dataset) de l'option
+    option.dataset.information = information;
 }
 
 function afficherPoste() {
@@ -71,11 +75,14 @@ function afficherPoste() {
 
     if (correspondances.hasOwnProperty(dateSelectionnee)) {
         var info = correspondances[dateSelectionnee];
-        posteInput.value = info.information;
+        
+        // Vérifiez si l'information existe
+        posteInput.value = info.information ? info.information : "Aucune information trouvée";
     } else {
         posteInput.value = "Aucune information trouvée pour cette date";
     }
 }
+
 
 
 
