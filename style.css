@@ -1,45 +1,49 @@
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 20px;
-      font-size: 30px; /* Taille de police doublée */
-    }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #000; /* Noir */
+  margin: 20px;
+  font-size: 30px;
+  color: #ff8c00; /* Orange */
+}
 
-    .container {
-      max-width: 400px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #111; /* Noir légèrement plus foncé */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 140, 0, 0.5); /* Ombre orange */
+}
 
-    label {
-      display: block;
-      margin-bottom: 16px;
-      font-size: 27px; /* Taille de police doublée */
-    }
+label {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 27px;
+  color: #ff8c00;
+}
 
-    select, input {
-      width: 100%;
-      padding: 10px; /* Doublé la taille de la case */
-      margin-bottom: 32px; /* Doublé l'espacement en bas de la case */
-      font-size: 19px; /* Taille de police doublée */
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      padding-left: 5px;
-    }
+select, input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 32px;
+  font-size: 19px;
+  border: 1px solid #666; /* Bordure noire */
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding-left: 5px;
+  background-color: #222; /* Fond noir */
+  color: #fff; /* Texte blanc */
+}
 
-    button {
-      background-color: #4caf50;
-      color: #fff;
-      padding: 20px 30px; /* Doublé la taille du bouton */
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+button {
+  background-color: #ff8c00;
+  color: #fff;
+  padding: 20px 30px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-    button:hover {
-      background-color: #45a049;
-    }
+button:hover {
+  background-color: #cc7000; /* Légèrement plus sombre au survol */
+}
