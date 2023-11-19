@@ -35,7 +35,7 @@
 
 function chargerCorrespondances() {
     var spreadsheetId = "1gm-uxD8_wMvs7B12o9-hNKpehVwriWNepvVS1QxplAw"; // ID de la feuille de calcul
-    var range = "Sheet1!A2:D"; // Plage de données dans la feuille de calcul
+    var range = "Sheet1!A2:E"; // Mettez à jour la plage de données pour inclure la nouvelle colonne
 
     gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: spreadsheetId,
@@ -46,8 +46,9 @@ function chargerCorrespondances() {
         if (values && values.length > 0) {
             for (var i = 0; i < values.length; i++) {
                 var row = values[i];
-                var optionText = row[0] + " -  " + row[1] + " -  " + row[2] + "  - " + row[3];
-                ajouterOption("Jour", optionText);
+                var optionText = row[0] + " - " + row[1] + " - " + row[2] + " - " + row[3];
+                ajouterOption("Jour", optionText, row[1], ""); // Ajoutez la date et la nouvelle information comme paramètres
+                correspondances[row[1]] = { jourSemaine: row[0], semaine: row[2], poste: row[3], information: row[4] };
             }
         }
     }, function(response) {
@@ -55,43 +56,29 @@ function chargerCorrespondances() {
     });
 }
 
-
-
-        function ajouterOption(idSelect, texte) {
-            var select = document.getElementById(idSelect);
-            var option = document.createElement("option");
-            option.text = texte;
-            select.add(option);
-        }
-
-        function updateDropdown() {
-            var select = document.getElementById("Jour");
-            for (var date in correspondances) {
-                if (correspondances.hasOwnProperty(date)) {
-                    var option = document.createElement("option");
-                    option.value = date;
-                    option.text = correspondances[date].jourSemaine + " " + date;
-                    select.add(option);
-                }
-            }
-        }
+function ajouterOption(idSelect, texte, date, information) {
+    var select = document.getElementById(idSelect);
+    var option = document.createElement("option");
+    option.text = texte + " - " + information; // Ajoutez la nouvelle information au texte de l'option
+    option.value = date; // Utilisez la date comme valeur de l'option
+    select.add(option);
+}
 
 function afficherPoste() {
     var dateSelectionnee = document.getElementById("Jour").value;
     var posteInput = document.getElementById("posteInput");
 
-    console.log("Date sélectionnée :", dateSelectionnee);
-    console.log("Correspondances :", correspondances);
-
     if (correspondances.hasOwnProperty(dateSelectionnee)) {
         var info = correspondances[dateSelectionnee];
-        console.log("Information trouvée :", info);
-        posteInput.value = info.poste;
+        posteInput.value = info.information;
     } else {
-        console.log("Aucune information trouvée pour cette date");
-        posteInput.value = "Aucune information trouvée ";
+        posteInput.value = "Aucune information trouvée pour cette date";
     }
 }
+
+
+
+
 
 
         window.onload = function() {
