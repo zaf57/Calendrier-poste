@@ -21,7 +21,7 @@
     }
 
     select, input {
-      width: 50%;
+      width: 100%;
       padding: 20px; /* Doublé la taille de la case */
       margin-bottom: 32px; /* Doublé l'espacement en bas de la case */
       font-size: 32px; /* Taille de police doublée */
