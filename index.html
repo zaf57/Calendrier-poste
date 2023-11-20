@@ -47,7 +47,7 @@
 
 <!-- Bouton "Data" -->
 <a href="login.html" target="_blank">
-    <button>Data</button>
+    <button style="margin-top: 12px;">Data</button>
 </a>
 
 
@@ -131,7 +131,7 @@ function afficherPoste() {
     if (correspondances.hasOwnProperty(dateSelectionnee)) {
         var info = correspondances[dateSelectionnee];
         //console.log("Information trouvée : ", info);
-        posteInput.value = info.information ? info.information : "Pas d'info";
+        posteInput.value = info.information ? info.information : "";
     } else {
         //console.log("Aucune information trouvée pour cette date");
         posteInput.value = "Aucune information trouvée pour cette date";
