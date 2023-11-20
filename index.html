@@ -120,15 +120,15 @@ function afficherPoste() {
     var dateSelectionnee = document.getElementById("Jour").value;
     var posteInput = document.getElementById("posteInput");
 
-    console.log("Date sélectionnée : ", dateSelectionnee);
-    console.log("Correspondances : ", correspondances);
+    //console.log("Date sélectionnée : ", dateSelectionnee);
+    //console.log("Correspondances : ", correspondances);
 
     if (correspondances.hasOwnProperty(dateSelectionnee)) {
         var info = correspondances[dateSelectionnee];
-        console.log("Information trouvée : ", info);
+        //console.log("Information trouvée : ", info);
         posteInput.value = info.information ? info.information : "Pas d'info";
     } else {
-        console.log("Aucune information trouvée pour cette date");
+        //console.log("Aucune information trouvée pour cette date");
         posteInput.value = "Aucune information trouvée pour cette date";
     }
 }
