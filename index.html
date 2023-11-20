@@ -131,8 +131,9 @@ function afficherPoste() {
      
         // Fonction pour ouvrir le lien dans une nouvelle fenêtre
         function ouvrirLien(lien) {
-            window.location.href = lien;
-        }
+       //window.location.href = lien;
+                      // Ouvrir le lien dans une nouvelle fenêtre centrée en bas de la page
+            window.open(lien, "_blank", "width=800,height=600,top=screen.height-600");
 
 
     </script>
