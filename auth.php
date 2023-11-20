@@ -2,7 +2,7 @@
 // auth.php
 
 // Votre mot de passe autorisé
-$motDePasseAutorise = "votre_mot_de_passe"; // Remplacez ceci par votre mot de passe réel
+$motDePasseAutorise = "4966"; // Remplacez ceci par votre mot de passe réel
 
 // Vérifie si le formulaire est soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
