@@ -38,10 +38,11 @@ select, input {
 button {
   background-color: #ff8c00;
   color: #fff;
-  padding: 20px 23px;
+  padding: 13px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
 }
 
 button:hover {
