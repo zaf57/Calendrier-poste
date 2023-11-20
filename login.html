@@ -5,6 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+        <style>
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .fade-out {
+            animation: fadeOut 2s ease-out;
+        }
+    </style>
 </head>
 <body>
     <form id="loginForm">
@@ -15,14 +29,17 @@
 
     <script>
         function checkPassword() {
-            var password = document.getElementById("password").value;
+            var enteredPassword = document.getElementById("password").value;
+            var correctPassword = "4966"; // Remplacez ceci par votre mot de passe réel
 
-            // Remplacez ceci par votre mot de passe réel
-            var motDePasseAutorise = "4966";
+            if (enteredPassword === correctPassword) {
+                // Mot de passe correct, déclenche l'animation de disparition
+                document.body.classList.add("fade-out");
 
-            if (password === motDePasseAutorise) {
-                // Mot de passe correct, redirige vers la feuille Google Sheets
-                window.location.href = "https://docs.google.com/spreadsheets/d/1gm-uxD8_wMvs7B12o9-hNKpehVwriWNepvVS1QxplAw/edit#gid=1833366428";
+                // Redirige vers la feuille Google Sheets après une courte pause (2 secondes dans cet exemple)
+                setTimeout(function() {
+                    window.location.href = "https://docs.google.com/spreadsheets/d/1gm-uxD8_wMvs7B12o9-hNKpehVwriWNepvVS1QxplAw/edit#gid=1833366428";
+                }, 2000);
             } else {
                 alert("Mot de passe incorrect. Veuillez réessayer.");
             }
