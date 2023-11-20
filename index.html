@@ -81,7 +81,7 @@ function chargerCorrespondances() {
         if (values && values.length > 0) {
             for (var i = 0; i < values.length; i++) {
                 var row = values[i];
-                var optionText = row[0] + " - " + row[1] + " - " + row[2] + " - " + row[3];
+                var optionText = " [S " + row[2] + " ] " + row[0] +  " " + row[1] + " en " + row[3];
                 ajouterOption("Jour", optionText, row[1], row[4]);
                 correspondances[row[1]] = { jourSemaine: row[0], semaine: row[2], poste: row[3], information: row[4] };
             }
