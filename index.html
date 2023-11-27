@@ -23,6 +23,7 @@
 </head>
 
 <body>
+     <p id="dateAujourdhui"></p>
     <h1>Calendrier des Postes</h1>
 
     <label for="equipeSelect">Sélectionnez une équipe :</label>
@@ -63,6 +64,7 @@
             }).then(function () {
                 console.log('API initialized');
                 chargerEquipe();
+                afficherDateAujourdhui();
             }, function (error) {
                 console.log('Error initializing API', error);
             });
@@ -150,6 +152,23 @@ function afficherPoste() {
                       // Ouvrir le lien dans une nouvelle fenêtre centrée en bas de la page
             window.open(lien, "_blank", "width=800,height=600,top=screen.height-600");
 }
+    
+         
+ function afficherDateAujourdhui() {
+        // Récupérez l'élément où vous souhaitez afficher la date
+        var dateAujourdhuiElement = document.getElementById("dateAujourdhui");
+
+        // Créez un nouvel objet Date pour la date actuelle
+        var dateAujourdhui = new Date();
+
+        // Formattez la date comme vous le souhaitez
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        var dateFormatee = dateAujourdhui.toLocaleDateString('fr-FR', options);
+
+        // Affichez la date dans l'élément
+        dateAujourdhuiElement.textContent = "Aujourd'huii : " + dateFormatee;
+    }
+ 
 
     </script>
 </body>
