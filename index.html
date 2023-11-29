@@ -103,6 +103,12 @@ function chargerCorrespondances() {
                 correspondances[row[1]] = { jourSemaine: row[0], semaine: row[2], poste: row[3], information: row[4] };
             }
         }
+                // Sélectionnez la première date par défaut
+        var premiereDate = values[0][1];
+        document.getElementById("Jour").value = premiereDate;
+
+        // Affichez l'information correspondante
+        afficherPoste();
     }, function(response) {
         console.log('Erreur : ' + response.result.error.message);
     });
