@@ -183,8 +183,17 @@ function afficherPoste() {
         dateAujourdhuiElement.textContent = "📅 " + dateFormatee;
     }
 
+function activerSon() {
+    sonnerie.play().then(() => {
+        console.log("Son activé avec succès");
+    }).catch(error => {
+        console.error("Erreur lors de l'activation du son :", error.message);
+    });
+}
+      
 var sonnerie = document.getElementById("sonnerie");
 var differenceTemps;
+
 function demarrerReveil() {
     // Récupérez l'heure actuelle
     var heureActuelle = new Date().getHours();
@@ -207,24 +216,17 @@ function demarrerReveil() {
 
     // Calculez la différence en millisecondes entre l'heure actuelle et l'heure du réveil
     var differenceTemps = new Date().setHours(heureReveil, minutesReveil, 0) - new Date();
-
+    console.log("Date actuelle :", new Date());
+    console.log("Heure du réveil :", heureReveil + ":" + (minutesReveil < 10 ? "0" : "") + minutesReveil);
+    console.log("differenceTemps :", differenceTemps);
     // Démarrez le réveil après la différence de temps calculée
     setTimeout(function() {
         // Ajoutez ici le code que vous souhaitez exécuter lorsque le réveil se déclenche
         alert("Réveil! Il est maintenant " + heureReveil + ":" + (minutesReveil < 10 ? "0" : "") + minutesReveil);
 
         // Démarrez la sonnerie
-        sonnerie.play();
+        activerSon();
     }, differenceTemps);
-}
-
-
-function activerSon() {
-    sonnerie.play().then(() => {
-        console.log("Son activé avec succès");
-    }).catch(error => {
-        console.error("Erreur lors de l'activation du son :", error.message);
-    });
 }
 
 // Arrêtez la sonnerie
