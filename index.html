@@ -221,11 +221,10 @@ function demarrerReveil() {
     console.log("differenceTemps :", differenceTemps);
     // Démarrez le réveil après la différence de temps calculée
     setTimeout(function() {
-        // Ajoutez ici le code que vous souhaitez exécuter lorsque le réveil se déclenche
-        //alert("Réveil! Il est maintenant " + heureReveil + ":" + (minutesReveil < 10 ? "0" : "") + minutesReveil);
-
         // Démarrez la sonnerie
         activerSon();
+        // Ajoutez ici le code que vous souhaitez exécuter lorsque le réveil se déclenche
+        alert("Réveil! Il est maintenant " + heureReveil + ":" + (minutesReveil < 10 ? "0" : "") + minutesReveil);
     }, differenceTemps);
 }
 
