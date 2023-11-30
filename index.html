@@ -56,7 +56,8 @@
 <label for="minutesReveil">Minutes :</label>
 <input type="number" id="minutesReveil" min="0" max="59" placeholder="Minutes">
 <audio id="sonnerie" src="Alarm.mp3" loop></audio>
-<button onclick="activerSon()">activeRéveil</button>
+<button onclick="demarrerReveil()">Démarrer le Réveil</button>
+<button onclick="arreterSonnerie()">Arrêter la Sonnerie</button>
 
 
 
@@ -182,23 +183,41 @@ function afficherPoste() {
         dateAujourdhuiElement.textContent = "📅 " + dateFormatee;
     }
 
-        var sonnerie = document.getElementById("sonnerie");
-
+var sonnerie = document.getElementById("sonnerie");
+var differenceTemps;
 function demarrerReveil() {
-    // ... (code précédent)
+    // Récupérez l'heure actuelle
+    var heureActuelle = new Date().getHours();
+    var minutesActuelles = new Date().getMinutes();
 
-    differenceTemps = new Date().setHours(heureReveil, minutesReveil, 0) - new Date();
+    // Récupérez les valeurs saisies par l'utilisateur
+    var heureReveil = document.getElementById("heureReveil").value;
+    var minutesReveil = document.getElementById("minutesReveil").value;
 
-    console.log("differenceTemps :", differenceTemps);
+    // Vérifiez si les valeurs saisies sont valides
+    if (heureReveil === "" || isNaN(heureReveil) || heureReveil < 0 || heureReveil > 23) {
+        alert("Veuillez entrer une heure valide (entre 0 et 23).");
+        return;
+    }
 
+    if (minutesReveil === "" || isNaN(minutesReveil) || minutesReveil < 0 || minutesReveil > 59) {
+        alert("Veuillez entrer des minutes valides (entre 0 et 59).");
+        return;
+    }
+
+    // Calculez la différence en millisecondes entre l'heure actuelle et l'heure du réveil
+    var differenceTemps = new Date().setHours(heureReveil, minutesReveil, 0) - new Date();
+
+    // Démarrez le réveil après la différence de temps calculée
     setTimeout(function() {
-        console.log("Réveil ! Il est maintenant " + heureReveil + ":" + (minutesReveil < 10 ? "0" : "") + minutesReveil);
+        // Ajoutez ici le code que vous souhaitez exécuter lorsque le réveil se déclenche
+        alert("Réveil! Il est maintenant " + heureReveil + ":" + (minutesReveil < 10 ? "0" : "") + minutesReveil);
 
-        // Démarrez la lecture ici
-        activerSon();
-
+        // Démarrez la sonnerie
+        sonnerie.play();
     }, differenceTemps);
 }
+
 
 function activerSon() {
     sonnerie.play().then(() => {
@@ -207,6 +226,13 @@ function activerSon() {
         console.error("Erreur lors de l'activation du son :", error.message);
     });
 }
+
+// Arrêtez la sonnerie
+function arreterSonnerie() {
+    sonnerie.pause();
+    sonnerie.currentTime = 0;
+}
+
  
 
     </script>
