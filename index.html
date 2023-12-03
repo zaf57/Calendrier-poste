@@ -25,7 +25,7 @@
 <body>
      <p id="dateAujourdhui"></p>
     <h1>Calendrier des Postes</h1>
-
+<div id="pageCalendrier">
     <label for="equipeSelect">Sélectionnez une équipe :</label>
     <select id="equipeSelect" onchange="chargerEquipe()">
         <option value="equipeA">Équipe A</option>
@@ -50,15 +50,22 @@
 <a href="login.html" target="_blank">
     <button style="margin-top: 12px;">🔑 Data</button>
 </a>
+  
+ <button onclick="afficherPage('reveil')">Réveil</button>
+  </div>
+<!-- Nouvelle page (réveil) -->
+    <div id="pageReveil" style="display: none;">
+        <h1>Réveil</h1>
+        <label for="heureReveil">Heure du réveil :</label>
+        <input type="number" id="heureReveil" min="0" max="23" placeholder="Heure">
+        <label for="minutesReveil">Minutes :</label>
+        <input type="number" id="minutesReveil" min="0" max="59" placeholder="Minutes">
+        <audio id="sonnerie" src="Alarm.mp3" loop></audio>
+        <button onclick="demarrerReveil()">Démarrer le Réveil</button>
+        <button onclick="arreterSonnerie()">Arrêter la Sonnerie</button>
+       <button onclick="afficherPage('calendrier')">Retour au Calendrier</button>
+    </div>
 
-/*    <label for="heureReveil">Heure du réveil :</label>
-<input type="number" id="heureReveil" min="0" max="23" placeholder="Heure">
-<label for="minutesReveil">Minutes :</label>
-<input type="number" id="minutesReveil" min="0" max="59" placeholder="Minutes">
-<audio id="sonnerie" src="Alarm.mp3" loop></audio>
-<button onclick="demarrerReveil()">Démarrer le Réveil</button>
-<button onclick="arreterSonnerie()">Arrêter la Sonnerie</button>
-*/
 
 
     <script>
@@ -190,8 +197,18 @@ function activerSon() {
         console.error("Erreur lors de l'activation du son :", error.message);
     });
 }
-      
-/*
+
+              // Fonction pour basculer entre les pages
+        function afficherPage(page) {
+            if (page === "calendrier") {
+                document.getElementById("pageCalendrier").style.display = "block";
+                document.getElementById("pageReveil").style.display = "none";
+            } else if (page === "reveil") {
+                document.getElementById("pageCalendrier").style.display = "none";
+                document.getElementById("pageReveil").style.display = "block";
+            }
+        }
+
 var sonnerie = document.getElementById("sonnerie");
 var differenceTemps;
 
@@ -214,6 +231,8 @@ function demarrerReveil() {
         alert("Veuillez entrer des minutes valides (entre 0 et 59).");
         return;
     }
+      alert("Programmer réveil ?" + heureReveil + ":" + (minutesReveil < 10 ? "0" : "") + minutesReveil);
+
 
     // Calculez la différence en millisecondes entre l'heure actuelle et l'heure du réveil
     var differenceTemps = new Date().setHours(heureReveil, minutesReveil, 0) - new Date();
@@ -234,7 +253,8 @@ function arreterSonnerie() {
     sonnerie.pause();
     sonnerie.currentTime = 0;
 }
-*/
+
+      
  
 
     </script>
