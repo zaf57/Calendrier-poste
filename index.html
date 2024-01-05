@@ -13,6 +13,11 @@
 </head>
 
 <body>
+  
+      <div id="reminderBanner" onclick="fermerBanner()">
+        <p>Bienvenue sur notre application ! Ajoutez-la à votre écran d'accueil pour un accès rapide.</p>
+    </div>
+  
      <p id="dateAujourdhui"></p>
     <h1>Calendrier des Postes</h1>
 <div id="pageCalendrier">
@@ -72,6 +77,8 @@
                 console.log('API initialized');
                 chargerEquipe();
                 afficherDateAujourdhui();
+                afficherBanner();
+                setTimeout(fermerBanner, 10000);
             }, function (error) {
                 console.log('Error initializing API', error);
             });
@@ -246,6 +253,15 @@ function arreterSonnerie() {
     sonnerie.currentTime = 0;
 }
 
+        function afficherBanner() {
+            var banner = document.getElementById('reminderBanner');
+            banner.style.display = 'block';
+        }
+
+        function fermerBanner() {
+            var banner = document.getElementById('reminderBanner');
+            banner.style.display = 'none';
+        }       
       
  
 
