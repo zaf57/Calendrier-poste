@@ -42,7 +42,6 @@
 </a>
   
     <button onclick="afficherPage('reveil')"style="padding-bottom: 9px;padding-top: 9px;padding-left: 9px;padding-right: 9px;">Réveil</button>
-    <button id="ajouterRaccourci">Ajouter à l'écran d'accueil</button>
 
 </div>
 
@@ -246,20 +245,6 @@ function arreterSonnerie() {
     sonnerie.pause();
     sonnerie.currentTime = 0;
 }
-
-//bouton d'installation ou raccourci
-// Dans votre fichier JavaScript
-document.getElementById('ajouterRaccourci').addEventListener('click', () => {
-  if ('standalone' in window.navigator && window.navigator.standalone) {
-    alert("L'application est déjà sur l'écran d'accueil.");
-  } else if (window.matchMedia('(display-mode: standalone)').matches) {
-    alert("L'application est déjà sur l'écran d'accueil.");
-  } else {
-    alert("Appuyez sur le bouton 'Ajouter à l'écran d'accueil' de votre navigateur pour ajouter le raccourci.");
-  }
-});
-
-
 
       
  
