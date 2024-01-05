@@ -5,9 +5,7 @@
     <title>Calendrier Poste</title>
 
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="manifest" href="/chemin/vers/manifest.json">
-
-
+    
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://apis.google.com/js/api.js"></script>
@@ -44,7 +42,8 @@
 </a>
   
     <button onclick="afficherPage('reveil')"style="padding-bottom: 9px;padding-top: 9px;padding-left: 9px;padding-right: 9px;">Réveil</button>
-    <button id="installButton">Installer l'application</button>
+    <button id="ajouterRaccourci">Ajouter à l'écran d'accueil</button>
+
 </div>
 
     <!-- Nouvelle page (réveil) -->
@@ -249,22 +248,17 @@ function arreterSonnerie() {
 }
 
 //bouton d'installation ou raccourci
-const installButton = document.getElementById('installButton');
-
-window.addEventListener('beforeinstallprompt', (event) => {
-    console.log('beforeinstallprompt event triggered');
-  // Empêche l'événement par défaut
-  event.preventDefault();
-  
-  // Affiche le button
-  installButton.style.display = 'block';
-  
-  // Gère l'installation lorsque le bouton est cliqué
-  installButton.addEventListener('click', () => {
-    event.prompt();
-    installButton.style.display = 'none';
-  });
+// Dans votre fichier JavaScript
+document.getElementById('ajouterRaccourci').addEventListener('click', () => {
+  if ('standalone' in window.navigator && window.navigator.standalone) {
+    alert("L'application est déjà sur l'écran d'accueil.");
+  } else if (window.matchMedia('(display-mode: standalone)').matches) {
+    alert("L'application est déjà sur l'écran d'accueil.");
+  } else {
+    alert("Appuyez sur le bouton 'Ajouter à l'écran d'accueil' de votre navigateur pour ajouter le raccourci.");
+  }
 });
+
 
 
       
