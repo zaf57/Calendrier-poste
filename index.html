@@ -5,6 +5,8 @@
     <title>Calendrier Poste</title>
 
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="manifest" href="/chemin/vers/manifest.json">
+
 
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,9 +43,11 @@
     <button style="margin-top: 12px;">🔑 Data</button>
 </a>
   
- <button onclick="afficherPage('reveil')"style="padding-bottom: 9px;padding-top: 9px;padding-left: 9px;padding-right: 9px;">Réveil</button>
-  </div>
-<!-- Nouvelle page (réveil) -->
+    <button onclick="afficherPage('reveil')"style="padding-bottom: 9px;padding-top: 9px;padding-left: 9px;padding-right: 9px;">Réveil</button>
+    <button id="installButton">Installer l'application</button>
+</div>
+
+    <!-- Nouvelle page (réveil) -->
     <div id="pageReveil" style="display: none;">
         <h1>Réveil</h1>
         <label for="heureReveil">Heure du réveil :</label>
@@ -243,6 +247,24 @@ function arreterSonnerie() {
     sonnerie.pause();
     sonnerie.currentTime = 0;
 }
+
+//bouton d'installation ou raccourci
+const installButton = document.getElementById('installButton');
+
+window.addEventListener('beforeinstallprompt', (event) => {
+  // Empêche l'événement par défaut
+  event.preventDefault();
+  
+  // Affiche le button
+  installButton.style.display = 'block';
+  
+  // Gère l'installation lorsque le bouton est cliqué
+  installButton.addEventListener('click', () => {
+    event.prompt();
+    installButton.style.display = 'none';
+  });
+});
+
 
       
  
