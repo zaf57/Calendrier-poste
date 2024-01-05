@@ -14,10 +14,6 @@
 
 <body>
   
-      <div id="reminderBanner" onclick="fermerBanner()">
-        <p>Bienvenue sur notre application ! Ajoutez-la à votre écran d'accueil pour un accès rapide.</p>
-    </div>
-  
      <p id="dateAujourdhui"></p>
     <h1>Calendrier des Postes</h1>
 <div id="pageCalendrier">
@@ -63,7 +59,9 @@
        <button onclick="afficherPage('calendrier')" style="margin-top: 5px; ">Retour au Calendrier</button>
     </div>
 
-
+      <div id="reminderBanner" onclick="fermerBanner()">
+        <p style="padding-right: 20px;">Bienvenue sur notre application ! Ajoutez-la à votre écran d'accueil pour un accès rapide.</p>
+    </div>
 
     <script>
         var correspondances = {};
@@ -78,7 +76,7 @@
                 chargerEquipe();
                 afficherDateAujourdhui();
                 afficherBanner();
-                //setTimeout(fermerBanner, 10000);
+                setTimeout(fermerBanner, 10000);
             }, function (error) {
                 console.log('Error initializing API', error);
             });
