@@ -252,6 +252,7 @@ function arreterSonnerie() {
 const installButton = document.getElementById('installButton');
 
 window.addEventListener('beforeinstallprompt', (event) => {
+    console.log('beforeinstallprompt event triggered');
   // Empêche l'événement par défaut
   event.preventDefault();
   
