@@ -48,3 +48,16 @@ button {
 button:hover {
   background-color: #cc7000; /* Légèrement plus sombre au survol */
 }
+
+#reminderBanner {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            z-index: 1000;
+        }
